@@ -15,3 +15,32 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 <img width="325" height="269" alt="giphy" src="https://github.com/user-attachments/assets/2743c66f-293e-4906-932a-ee88596ecd49" />
+name: Generate Pacman
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: LucasDS-h
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+
+      - uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
